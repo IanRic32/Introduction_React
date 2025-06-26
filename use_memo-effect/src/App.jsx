@@ -1,23 +1,29 @@
 import React, { useState, useEffect, useMemo } from 'react';
 
 function App() {
-  const [tareas, setTareas] = useState(
-    ()=> {
-      const saved = localStorage.getItem("tareas");
-      return saved ? JSON.parse(saved) : [];    });
-
+  // Cargar tareas desde localStorage al inicio
+  const [tareas, setTareas] = useState(() => {
+    const saved = localStorage.getItem('tareas');
+    return saved ? JSON.parse(saved) : [];
+  });
+  
   const [nuevaTarea, setNuevaTarea] = useState('');
   const [duracion, setDuracion] = useState('');
-  const [filtro, setFiltro] = useState('');
+  const [filtro, setFiltro] = useState('todas');
   const [busqueda, setBusqueda] = useState('');
+
+  // Persistir tareas en localStorage
   useEffect(() => {
-    localStorage.setItem("tareas", JSON.stringify(tareas));
-    document.title = `Tareas (${calcularTiempoTotal} minutos)`;}, [tareas]);
-  //Calculo del tiempo total de las tareas
+    localStorage.setItem('tareas', JSON.stringify(tareas));
+    document.title = `Total: ${calcularTiempoTotal} minutos`;
+  }, [tareas]);
+
+  // Cálculo optimizado del tiempo total
   const calcularTiempoTotal = useMemo(() => {
-    return tareas.reduce((total,tarea) => total + tarea.duracion, 0)}, [tareas]);
+    return tareas.reduce((total, tarea) => total + tarea.duracion, 0);
+  }, [tareas]);
 
-
+  // Filtrar tareas según criterios
   const tareasFiltradas = useMemo(() => {
     return tareas.filter(tarea => {
       const cumpleFiltro = filtro === 'todas' || 
@@ -46,6 +52,7 @@ function App() {
       setDuracion('');
     }
   };
+
   const eliminarTarea = (id) => {
     setTareas(tareas.filter(tarea => tarea.id !== id));
   };
@@ -60,223 +67,278 @@ function App() {
     <div className="app-container">
       <h1>⏱️ Gestor de Tareas</h1>
       
-      <form onSubmit={agregarTarea} className="formulario-tarea">
-        <div className="input-group">
-          <input 
-            type="text" 
-            value={nuevaTarea} 
-            onChange={(e) => setNuevaTarea(e.target.value)} 
-            placeholder="Nombre de la tarea" 
-            required
-          />
-          <input 
-            type="number" 
-            value={duracion} 
-            onChange={(e) => setDuracion(e.target.value)} 
-            placeholder="Duración (min)" 
-            min="1"
-            required
-          />
-          <button type="submit">➕ Agregar</button>
-        </div>
-      </form>
+      <div className="form-section">
+        <form onSubmit={agregarTarea} className="task-form">
+          <div className="form-row">
+            <input 
+              type="text" 
+              value={nuevaTarea} 
+              onChange={(e) => setNuevaTarea(e.target.value)} 
+              placeholder="Nombre de la tarea" 
+              required
+              className="form-input"
+            />
+            <input 
+              type="number" 
+              value={duracion} 
+              onChange={(e) => setDuracion(e.target.value)} 
+              placeholder="Duración (min)" 
+              min="1"
+              required
+              className="form-input"
+            />
+            <button type="submit" className="submit-btn">
+              ➕ Agregar
+            </button>
+          </div>
+        </form>
 
-      <div className="filtros">
-        <input
-          type="text"
-          value={busqueda}
-          onChange={(e) => setBusqueda(e.target.value)}
-          placeholder="🔍 Buscar tareas..."
-        />
-        
-        <select value={filtro} onChange={(e) => setFiltro(e.target.value)}>
-          <option value="todas">Todas las tareas</option>
-          <option value="cortas">Tareas cortas (≤ 30 min)</option>
-          <option value="largas">Tareas largas ({">"} 30 min)</option>
-        </select>
+        <div className="filter-row">
+          <input
+            type="text"
+            value={busqueda}
+            onChange={(e) => setBusqueda(e.target.value)}
+            placeholder="🔍 Buscar tareas..."
+            className="search-input"
+          />
+          
+          <select 
+            value={filtro} 
+            onChange={(e) => setFiltro(e.target.value)}
+            className="filter-select"
+          >
+            <option value="todas">Todas las tareas</option>
+            <option value="cortas">Tareas cortas (≤ 30 min)</option>
+            <option value="largas">Tareas largas (&gt; 30 min)</option>
+          </select>
+        </div>
       </div>
 
-      <div className="estadisticas">
+      <div className="stats-container">
         <p>
-          <span>Tareas: {tareas.length}</span> | 
-          <span> Completadas: {tareas.filter(t => t.completada).length}</span> | 
-          <span> Total tiempo: {calcularTiempoTotal} min</span>
+          <span className="stat-item">Tareas: {tareas.length}</span> | 
+          <span className="stat-item"> Completadas: {tareas.filter(t => t.completada).length}</span> | 
+          <span className="stat-item"> Total tiempo: {calcularTiempoTotal} min</span>
         </p>
       </div>
 
-      <ul className="lista-tareas">
+      <ul className="task-list">
         {tareasFiltradas.length > 0 ? (
           tareasFiltradas.map((tarea) => (
-            <li key={tarea.id} className={`tarea-item ${tarea.completada ? 'completada' : ''}`}>
-              <div className="tarea-info">
+            <li 
+              key={tarea.id} 
+              className={`task-item ${tarea.completada ? 'completed' : ''}`}
+            >
+              <div className="task-content">
                 <input
                   type="checkbox"
                   checked={tarea.completada}
                   onChange={() => toggleCompletada(tarea.id)}
+                  className="task-checkbox"
                 />
-                <span className="tarea-nombre">{tarea.nombre}</span>
-                <span className="tarea-duracion">{tarea.duracion} min</span>
-                <span className="tarea-fecha">
+                <span className="task-name">{tarea.nombre}</span>
+                <span className="task-duration">{tarea.duracion} min</span>
+                <span className="task-date">
                   {new Date(tarea.fecha).toLocaleDateString()}
                 </span>
               </div>
               <button 
                 onClick={() => eliminarTarea(tarea.id)}
-                className="eliminar-btn"
+                className="delete-btn"
               >
                 🗑️
               </button>
             </li>
           ))
         ) : (
-          <p className="sin-tareas">No hay tareas que coincidan con los filtros</p>
+          <p className="empty-message">No hay tareas que coincidan con los filtros</p>
         )}
       </ul>
+
       <style jsx>{`
-      .app-container {
+        .app-container {
           max-width: 800px;
           margin: 0 auto;
-          padding: 20px;
+          padding: 2rem;
           font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+          background-color: #98A1BC;
+          border-radius: 12px;
+          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
-      h1 {
+        
+        h1 {
           color: #2c3e50;
           text-align: center;
+          margin-bottom: 2rem;
+          font-size: 2rem;
         }
         
-        .formulario-tarea {
-          margin-bottom: 20px;
+        .form-section {
+          background-color: white;
+          padding: 1.5rem;
+          border-radius: 8px;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+          margin-bottom: 1.5rem;
         }
         
-        .input-group {
+        .form-row {
           display: flex;
-          gap: 10px;
+          justify-content: center;
+          gap: 1rem;
+          margin-bottom: 1rem;
         }
         
-        .input-group input {
-          flex: 1;
-          padding: 10px;
+        .form-input {
+          padding: 0.75rem 1rem;
           border: 1px solid #ddd;
-          border-radius: 4px;
-          font-size: 16px;
+          border-radius: 6px;
+          font-size: 1rem;
+          width: 100%;
+          max-width: 250px;
         }
         
-        .input-group button {
-          padding: 10px 20px;
-          background-color: #27ae60;
+        .submit-btn {
+          padding: 0.75rem 1.5rem;
+          background-color: #4e73df;
           color: white;
           border: none;
-          border-radius: 4px;
+          border-radius: 6px;
           cursor: pointer;
-          font-weight: bold;
+          font-weight: 600;
+          transition: background-color 0.2s;
         }
         
-        .input-group button:hover {
-          background-color: #2ecc71;
+        .submit-btn:hover {
+          background-color: #3a5bd9;
         }
         
-        .filtros {
+        .filter-row {
           display: flex;
-          gap: 10px;
-          margin-bottom: 15px;
+          justify-content: center;
+          gap: 1rem;
         }
         
-        .filtros input {
-          flex: 1;
-          padding: 8px;
+        .search-input {
+          padding: 0.75rem 1rem;
           border: 1px solid #ddd;
-          border-radius: 4px;
+          border-radius: 6px;
+          font-size: 1rem;
+          width: 100%;
+          max-width: 300px;
         }
         
-        .filtros select {
-          padding: 8px;
-          border-radius: 4px;
+        .filter-select {
+          padding: 0.75rem 1rem;
+          border-radius: 6px;
           border: 1px solid #ddd;
-          min-width: 200px;
+          font-size: 1rem;
+          width: 100%;
+          max-width: 300px;
+          background-color: white;
         }
         
-        .estadisticas {
-          background-color: #f0f7ff;
-          padding: 10px;
-          border-radius: 4px;
-          margin-bottom: 15px;
+        .stats-container {
+          background-color: #e9ecef;
+          padding: 1rem;
+          border-radius: 6px;
+          margin-bottom: 1.5rem;
           text-align: center;
+          font-size: 0.9rem;
         }
         
-        .estadisticas p {
-          margin: 0;
-          color: #3498db;
+        .stat-item {
+          margin: 0 0.5rem;
+          color: #495057;
+          font-weight: 500;
         }
         
-        .estadisticas span {
-          margin: 0 10px;
-        }
-        
-        .lista-tareas {
+        .task-list {
           list-style: none;
           padding: 0;
+          margin: 0;
         }
         
-        .tarea-item {
+        .task-item {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          padding: 12px 15px;
+          padding: 1rem 1.5rem;
           background-color: white;
-          border-radius: 4px;
-          margin-bottom: 8px;
-          box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+          border-radius: 6px;
+          margin-bottom: 0.75rem;
+          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+          transition: transform 0.2s, box-shadow 0.2s;
         }
         
-        .tarea-item.completada {
-          opacity: 0.7;
-          background-color: #f5f5f5;
+        .task-item:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         
-        .tarea-item.completada .tarea-nombre {
+        .task-item.completed {
+          background-color: #f8f9fa;
+        }
+        
+        .task-item.completed .task-name {
           text-decoration: line-through;
-          color: #7f8c8d;
+          color: #6c757d;
         }
         
-        .tarea-info {
+        .task-content {
           display: flex;
           align-items: center;
-          gap: 15px;
-          flex-grow: 1;
+          gap: 1rem;
+          flex: 1;
         }
         
-        .tarea-nombre {
-          flex-grow: 1;
+        .task-checkbox {
+          cursor: pointer;
+          width: 1.2rem;
+          height: 1.2rem;
         }
         
-        .tarea-duracion {
+        .task-name {
+          flex: 1;
+          font-weight: 500;
+        }
+        
+        .task-duration {
           background-color: #e3f2fd;
-          padding: 2px 8px;
-          border-radius: 10px;
-          font-size: 14px;
+          padding: 0.25rem 0.75rem;
+          border-radius: 12px;
+          font-size: 0.85rem;
           color: #1976d2;
+          font-weight: 600;
         }
         
-        .tarea-fecha {
-          font-size: 12px;
-          color: #95a5a6;
+        .task-date {
+          font-size: 0.8rem;
+          color: #6c757d;
         }
         
-        .eliminar-btn {
+        .delete-btn {
           background: none;
           border: none;
-          color: #e74c3c;
+          color: #dc3545;
           cursor: pointer;
-          font-size: 16px;
-          padding: 5px;
+          font-size: 1.2rem;
+          padding: 0.5rem;
+          transition: color 0.2s;
         }
         
-        .sin-tareas {
+        .delete-btn:hover {
+          color: #bb2d3b;
+        }
+        
+        .empty-message {
           text-align: center;
-          padding: 20px;
-          color: #95a5a6;
+          padding: 2rem;
+          color: #6c757d;
+          font-style: italic;
         }
       `}</style>
-</div>);
+    </div>
+  );
 }
+
 export default App;
