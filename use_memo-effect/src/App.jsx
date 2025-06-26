@@ -15,7 +15,6 @@ function App() {
   // Persistir tareas en localStorage
   useEffect(() => {
     localStorage.setItem('tareas', JSON.stringify(tareas));
-    document.title = `Total: ${calcularTiempoTotal} minutos`;
   }, [tareas]);
 
   // Cálculo optimizado del tiempo total
@@ -64,6 +63,7 @@ function App() {
   };
 
   return (
+
     <div className="app-container">
       <h1>⏱️ Gestor de Tareas</h1>
       
@@ -158,6 +158,7 @@ function App() {
       <style jsx>{`
         .app-container {
           max-width: 800px;
+          maxWidth: 100%;
           margin: 0 auto;
           padding: 2rem;
           font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
