@@ -66,3 +66,147 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #0a0a1a;
+  color: #e0e0e0;
+  margin: 0;
+  padding: 20px;
+}
+
+.app {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #1a1a2e;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 255, 0.2);
+}
+
+h1, h2, h3, h4 {
+  color: #4fc3f7;
+}
+
+.panel {
+  background-color: #16213e;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.indicador {
+  margin-bottom: 15px;
+  padding: 10px;
+  background-color: #0f3460;
+  border-radius: 5px;
+}
+
+.barra-combustible {
+  height: 20px;
+  background-color: #333;
+  border-radius: 10px;
+  margin-top: 5px;
+  overflow: hidden;
+}
+
+.nivel-combustible {
+  height: 100%;
+  background-color: #4caf50;
+  transition: width 0.5s;
+}
+
+.controles {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+button {
+  padding: 8px 16px;
+  background-color: #3f51b5;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #5c6bc0;
+}
+
+button:disabled {
+  background-color: #666;
+  cursor: not-allowed;
+}
+
+.planetas-visitados {
+  margin-top: 30px;
+}
+
+.planeta {
+  padding: 10px;
+  margin: 10px 0;
+  background-color: #0f3460;
+  border-radius: 5px;
+}
+
+.bitacora {
+  margin-top: 30px;
+  padding: 20px;
+  background-color: #16213e;
+  border-radius: 8px;
+}
+
+.form-bitacora {
+  display: grid;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  display: grid;
+  gap: 5px;
+}
+
+.form-group input,
+.form-group textarea {
+  padding: 8px;
+  background-color: #0f3460;
+  border: 1px solid #3f51b5;
+  border-radius: 4px;
+  color: white;
+}
+
+.registros-bitacora ul {
+  list-style: none;
+  padding: 0;
+}
+
+.registro-planeta {
+  background-color: #0f3460;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.info-planeta {
+  flex: 1;
+}
+
+.acciones-planeta {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.imagen-planeta img {
+  max-width: 200px;
+  max-height: 200px;
+  border-radius: 5px;
+  margin-top: 10px;
+}

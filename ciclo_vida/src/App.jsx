@@ -1,13 +1,14 @@
-import React, { useState, useEffect, useMemo, use } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import Planeta from './Planeta';
 import './App.css'
+import Bitacora from './Bitacora';
 
 function App() {
   const [distancia, setDistancia] = useState(0)
   const [combustible, setCombustible] = useState(0)
   const [estado_nave, setEstadoNave] = useState('En Órbita')
   const [planetasVisitados, setPlanetasVisitados] = useState([])
-  const [mostrarbitacora, setMostrarBitacora] = useState(false)
+  const [mostrarBitacora, setMostrarBitacora] = useState(false)
 
   useEffect(() => {
     console.log('El panel de control se ha encendido');
@@ -36,7 +37,7 @@ function App() {
         const aterrizar = () => {
           const nombrePlaneta = `Planeta-${distancia}`;
           setEstadoNave('Aterrizando');
-          setPlanetasVisitados(prev => [...planetasVisitados, nombrePlaneta]);
+          setPlanetasVisitados([...planetasVisitados, nombrePlaneta]);
 
           setTimeout(() => {
             setEstadoNave('En Órbita');
@@ -45,7 +46,41 @@ function App() {
         };
   return (
     <>
-      
+      <div className='app'>
+        <h1>Panel de Control de la Nave Espacial</h1>
+        <div className='panel'>
+          <div className='indicador'>
+            <h2>Distancia Recorrida: {distancia} UA</h2>
+          </div>
+          <div className='indicador'>
+            <h2>Combustible: {combustible}%</h2>
+            <div className='barra-combustible'></div>
+            <div className='nivel-combustible' style={{width:`${combustible}%`}}>
+
+            </div>
+          </div>
+        </div>
+        <div className='indicador'>
+          <h2>{mensajeEstado}</h2>
+        </div>
+        <div className='controles'>
+          <button onClick={aterrizar}
+            disabled= {estado_nave !== 'En orbita'|| combustible<=0}>
+            Aterrizar
+            </button>
+            <button onClick={() => setMostrarBitacora(!mostrarBitacora)}>
+            {mostrarBitacora ? 'Ocultar Bitácora' : 'Mostrar Bitácora'}
+          </button>
+        </div>
+      </div>
+      <div className='planetas-visitados'>
+        <h2>Planetas visitados</h2>
+        {planetasVisitados.map((planeta, index) => (
+          <Planeta key={index} nombre={planeta} />
+        ))}
+      </div>
+      {mostrarBitacora && <Bitacora planetas={planetasVisitados} />}
+      div
     </>
   )
 }
