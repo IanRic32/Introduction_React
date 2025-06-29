@@ -53,4 +53,50 @@
   transform: translateX(-50%);
 }
 
-.antenna-light
+.antenna-light {
+  width: 20px;
+  height: 20px;
+  background-color: #ff2d75;
+  border-radius: 50%;
+  position: absolute;
+  top: -10px;
+  left: -7px;
+  box-shadow: 0 0 10px #ff2d75;
+  animation: antennaGlow 2s infinite alternate;
+}
+
+.alien-hands {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 30px;
+}
+
+.alien-hands::before, .alien-hands::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 40px;
+  background-color: #4caf50;
+  bottom: 0;
+}
+
+.alien-hands::before {
+  left: 10px;
+  border-radius: 10px 10px 0 0;
+}
+
+.alien-hands::after {
+  right: 10px;
+  border-radius: 10px 10px 0 0;
+}
+
+@keyframes alienTalk {
+  0% { transform: scaleY(1); }
+  100% { transform: scaleY(0.3); }
+}
+
+@keyframes antennaGlow {
+  0% { opacity: 0.7; }
+  100% { opacity: 1; }
+}
