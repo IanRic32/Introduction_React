@@ -1,0 +1,56 @@
+.alien {
+  width: 120px;
+  height: 150px;
+  margin: 0 auto 2rem;
+  position: relative;
+  transition: all 0.3s;
+}
+
+.alien-head {
+  width: 100px;
+  height: 100px;
+  background-color: #4caf50;
+  border-radius: 50%;
+  margin: 0 auto;
+  position: relative;
+  box-shadow: 0 0 20px rgba(76, 175, 80, 0.5);
+}
+
+.alien-eyes {
+  display: flex;
+  justify-content: space-around;
+  padding-top: 30px;
+}
+
+.alien-eye {
+  width: 15px;
+  height: 15px;
+  background-color: #000;
+  border-radius: 50%;
+  transition: height 0.2s;
+}
+
+.alien-mouth {
+  width: 30px;
+  height: 10px;
+  background-color: #000;
+  border-radius: 5px;
+  margin: 15px auto 0;
+  transition: all 0.3s;
+}
+
+.alien.talking .alien-mouth {
+  animation: alienTalk 0.5s infinite alternate;
+}
+
+.alien-antenna {
+  width: 6px;
+  height: 30px;
+  background-color: #4caf50;
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.antenna-light

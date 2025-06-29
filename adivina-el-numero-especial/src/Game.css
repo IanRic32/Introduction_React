@@ -1,0 +1,264 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+
+:root {
+  --space-dark: #0a0a1a;
+  --space-blue: #1a1a2e;
+  --neon-blue: #4fc3f7;
+  --neon-pink: #ff2d75;
+  --alien-green: #4caf50;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+.game-container {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Orbitron', sans-serif;
+  color: white;
+  overflow: hidden;
+}
+
+.space-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, #000000, #1a1a2e);
+  z-index: -1;
+}
+
+.stars {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><circle cx="20" cy="20" r="0.5" fill="white"/><circle cx="50" cy="30" r="0.8" fill="white"/><circle cx="80" cy="10" r="0.3" fill="white"/><circle cx="10" cy="70" r="0.6" fill="white"/><circle cx="40" cy="60" r="0.4" fill="white"/><circle cx="70" cy="80" r="0.5" fill="white"/><circle cx="90" cy="50" r="0.7" fill="white"/></svg>');
+  animation: twinkle 5s infinite alternate;
+}
+
+@keyframes twinkle {
+  0% { opacity: 0.3; }
+  100% { opacity: 1; }
+}
+
+.planet {
+  position: absolute;
+  top: 50%;
+  left: 20%;
+  width: 150px;
+  height: 150px;
+  background: radial-gradient(circle at 30% 30%, #3f51b5, #1a237e);
+  border-radius: 50%;
+  box-shadow: 0 0 50px rgba(63, 81, 181, 0.5);
+}
+
+.game-content {
+  background-color: rgba(26, 26, 46, 0.9);
+  padding: 2rem;
+  border-radius: 15px;
+  box-shadow: 0 0 30px rgba(79, 195, 247, 0.3);
+  text-align: center;
+  max-width: 500px;
+  width: 90%;
+  border: 1px solid var(--neon-blue);
+}
+
+.game-title {
+  color: var(--neon-blue);
+  text-shadow: 0 0 10px rgba(79, 195, 247, 0.7);
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+}
+
+.game-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.attempts-counter {
+  color: var(--neon-pink);
+  font-weight: bold;
+}
+
+.hint-button {
+  background: transparent;
+  border: 1px solid var(--alien-green);
+  color: var(--alien-green);
+  padding: 0.3rem 0.6rem;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: all 0.3s;
+}
+
+.hint-button:hover {
+  background-color: rgba(76, 175, 80, 0.2);
+}
+
+.number-input {
+  padding: 0.8rem;
+  width: 80%;
+  border: 2px solid var(--neon-blue);
+  background-color: transparent;
+  color: white;
+  border-radius: 5px;
+  font-size: 1rem;
+  text-align: center;
+  margin-bottom: 1rem;
+  font-family: 'Orbitron', sans-serif;
+}
+
+.number-input:focus {
+  outline: none;
+  box-shadow: 0 0 10px rgba(79, 195, 247, 0.5);
+}
+
+.guess-button, .restart-button {
+  background-color: var(--neon-blue);
+  color: var(--space-dark);
+  border: none;
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-top: 1rem;
+  transition: all 0.3s;
+  font-family: 'Orbitron', sans-serif;
+}
+
+.guess-button:hover, .restart-button:hover {
+  background-color: var(--neon-pink);
+  transform: scale(1.05);
+}
+
+.message {
+  margin: 1.5rem 0;
+  padding: 1rem;
+  border-radius: 5px;
+  background-color: rgba(31, 31, 56, 0.7);
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.message.correct {
+  background-color: rgba(76, 175, 80, 0.2);
+  border: 1px solid var(--alien-green);
+  color: var(--alien-green);
+}
+
+.win-message {
+  margin: 2rem 0;
+}
+
+/* Animaciones del alien */
+.alien {
+  width: 100px;
+  height: 120px;
+  margin: 0 auto 1.5rem;
+  position: relative;
+}
+
+.alien-head {
+  width: 80px;
+  height: 80px;
+  background-color: var(--alien-green);
+  border-radius: 50%;
+  margin: 0 auto;
+  position: relative;
+}
+
+.alien-eyes {
+  display: flex;
+  justify-content: space-around;
+  padding-top: 25px;
+}
+
+.alien-eye {
+  width: 15px;
+  height: 15px;
+  background-color: black;
+  border-radius: 50%;
+}
+
+.alien-mouth {
+  width: 30px;
+  height: 10px;
+  background-color: black;
+  border-radius: 5px;
+  margin: 15px auto 0;
+  transition: all 0.3s;
+}
+
+.alien.talking .alien-mouth {
+  height: 5px;
+  width: 40px;
+  animation: alienTalk 0.5s infinite alternate;
+}
+
+.alien-antenna {
+  width: 5px;
+  height: 20px;
+  background-color: var(--alien-green);
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.alien-antenna::after {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: -5px;
+  width: 15px;
+  height: 15px;
+  background-color: var(--neon-pink);
+  border-radius: 50%;
+}
+
+@keyframes alienTalk {
+  0% { transform: scaleY(1); }
+  100% { transform: scaleY(0.5); }
+}
+
+/* Efectos de respuesta */
+@keyframes pulseHot {
+  0% { box-shadow: 0 0 5px rgba(255, 0, 0, 0.5); }
+  100% { box-shadow: 0 0 20px rgba(255, 0, 0, 0.8); }
+}
+
+@keyframes pulseCold {
+  0% { box-shadow: 0 0 5px rgba(0, 150, 255, 0.5); }
+  100% { box-shadow: 0 0 20px rgba(0, 150, 255, 0.8); }
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .game-content {
+    padding: 1.5rem;
+  }
+  
+  .game-title {
+    font-size: 1.5rem;
+  }
+  
+  .planet {
+    width: 100px;
+    height: 100px;
+    left: 10%;
+  }
+}
